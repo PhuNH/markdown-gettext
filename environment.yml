@@ -1,0 +1,9 @@
+# SPDX-FileCopyrightText: 2023 Phu Hung Nguyen <phuhnguyen@outlook.com>
+# SPDX-License-Identifier: CC0-1.0
+
+name: mg
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.8
