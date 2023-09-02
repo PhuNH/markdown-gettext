@@ -5,13 +5,10 @@ SPDX-License-Identifier: CC-BY-SA-4.0
 
 # markdown-gettext
 
-Markdown i18n with gettext.
+A command line program to do i18n and l10n for individual Markdown files.
 
 CommonMark compliant. All core Markdown elements are supported, as well as
-front matter, table, and definition list.
-
-The package can be used as a command line program to do i18n and l10n for
-individual Markdown files, and as a library to make larger programs. 
+YAML front matter, table, and definition list.
 
 ## Install
 
@@ -19,8 +16,7 @@ individual Markdown files, and as a library to make larger programs.
 pip install markdown-gettext
 ```
 
-## Usage as a command line program
-_("Usage as a library" in Development section)_
+## Usage
 
 You can use either `md-gettext` or `markdown-gettext` command
 
@@ -60,11 +56,9 @@ Some notes about how different elements are handled:
 - Inlines: newlines and consecutive spaces are not kept;
 - Content of each HTML block isn't parsed into finer tokens but processed
 as a whole;
-- Fenced code blocks: only `//` comments are processed;
+- Fenced code blocks: only `//` single comments are processed;
 
-## Development
-
-### Environment
+## Development environment
 
 - With Conda
 
@@ -73,15 +67,3 @@ conda env create -f environment.yml
 conda activate mg
 poetry install
 ```
-
-### Usage as a library
-
-#### Extraction
-- Subclass `DomainExtractionProtocol`, implement
-`DomainExtractionProtocol.render_front_matter`
-- Subclass `RendererMarkdownI18N`
-
-#### Generation
-- Subclass `DomainGenerationProtocol`, implement
-`DomainGenerationProtocol.render_front_matter`
-- Subclass `RendererMarkdownL10N`

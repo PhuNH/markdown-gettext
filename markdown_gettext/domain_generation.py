@@ -1,22 +1,23 @@
 # SPDX-FileCopyrightText: 2023 Phu Hung Nguyen <phuhnguyen@outlook.com>
 # SPDX-License-Identifier: LGPL-2.1-or-later
 
-from typing import Any, Protocol
+import gettext
 
 import yaml
-
-from .g_utils import L10NFunc, L10NResult
-from .. import utils
-
-
-class DomainGenerationProtocol(Protocol):
-    l10n_func: L10NFunc
-
-    def render_front_matter(self, content: str, markup: str) -> Any:
-        ...
+from mdit_py_i18n import utils
+from mdit_py_i18n.utils import L10NFunc, L10NResult
 
 
-class DomainGeneration(DomainGenerationProtocol):
+def gettext_func(domain_name):
+    gettext.bindtextdomain(domain_name, 'locale')
+    gettext.textdomain(domain_name)
+    return gettext.gettext
+
+
+class DomainGeneration:
+    """
+    Implements `DomainGenerationProtocol`
+    """
     def __init__(self, l10n_func: L10NFunc):
         self.l10n_func = l10n_func
 
