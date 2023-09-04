@@ -20,7 +20,8 @@ class I18NEntry:
     def to_poentry(self) -> polib.POEntry:
         return polib.POEntry(msgid=self.msgid,
                              msgstr='',
-                             occurrences=self.occurrences,
+                             # 0 passed to polib will be lost, use `str` to keep 0
+                             occurrences=[(o[0], str(o[1])) for o in self.occurrences],
                              comment=self.comment,
                              msgctxt=self.msgctxt if self.msgctxt != '' else None)
 
