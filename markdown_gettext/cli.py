@@ -7,6 +7,7 @@ import subprocess
 from argparse import ArgumentParser, RawTextHelpFormatter
 from typing import Tuple
 
+import polib
 from markdown_it import MarkdownIt
 from mdit_py_i18n.renderer_i18n import RendererMarkdownI18N
 from mdit_py_i18n.renderer_l10n import RendererMarkdownL10N
@@ -67,8 +68,20 @@ def compile_po(lang: str, po_path: str):
     os.makedirs(target_dir, exist_ok=True)
     po_basename = os.path.basename(po_path)
     mo_path = f'{target_dir}/{po_basename[:-2]}mo'
-    command = f'msgfmt {po_path} -o {mo_path}'
-    subprocess.run(command, shell=True, check=True)
+
+    with_gettext = True
+    test_cmd = 'msgfmt -V'
+    try:
+        # do not show the output of running test_cmd
+        subprocess.run(test_cmd, shell=True, check=True, capture_output=True)
+    except subprocess.CalledProcessError:
+        with_gettext = False
+
+    if with_gettext:
+        command = f'msgfmt {po_path} -o {mo_path}'
+        subprocess.run(command, shell=True, check=True)
+    else:
+        polib.pofile(po_path).save_as_mofile(mo_path)
 
 
 def generate(args):
