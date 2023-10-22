@@ -53,10 +53,10 @@ optional arguments:
 ## Notes
 
 Some notes about how different elements are handled:
-- Inlines: newlines and consecutive spaces are not kept;
+- Inlines: hard line breaks are replaced with `<br />`, newlines and
+consecutive spaces are not kept;
 - Content of each HTML block isn't parsed into finer tokens but processed
 as a whole;
-- Fenced code blocks: only `//` single comments are processed;
 
 ## Development environment
 

@@ -3,7 +3,7 @@
 
 [tool.poetry]
 name = "markdown-gettext"
-version = "0.1.4"
+version = "0.2.0"
 description = "Markdown i18n with gettext"
 authors = ["Phu Hung Nguyen <phuhnguyen@outlook.com>"]
 license = "LGPL-2.1-or-later"
@@ -25,7 +25,7 @@ PyYAML = [
     {version = "^5.3", python = ">=3.8,<3.10"},
     {version = "^6.0.1", python = ">=3.10"}
 ]
-mdit-py-i18n = "^0.1.0"
+mdit-py-i18n = "^0.2.0"
 
 [tool.poetry.scripts]
 md-gettext = 'markdown_gettext.cli:main'
