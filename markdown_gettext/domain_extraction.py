@@ -4,6 +4,7 @@
 from dataclasses import dataclass, field
 from datetime import datetime
 from typing import List, Tuple
+from pathlib import Path
 
 import polib
 import yaml
@@ -58,6 +59,17 @@ class DomainExtraction:
         fm = yaml.safe_load(content)
         self.i12ize_front_matter(fm, path)
 
+    def open_existing_pot(self, dest_path: str):
+        """
+        Open existing pot file if present and create a map to fast access to
+        messages by msgid
+        """
+        if not Path(dest_path).exists():
+            return None
+        existing_pot = polib.pofile(dest_path)
+        existing_pot.map_by_id = {e.msgid: e for e in existing_pot}
+        return existing_pot
+
     def make_pot(self, package: str, report_address: str, team_address: str, dest_path: str):
         pot = polib.POFile()
         pot.metadata = {
@@ -71,6 +83,16 @@ class DomainExtraction:
             'Content-Type': 'text/plain; charset=utf-8',
             'Content-Transfer-Encoding': '8bit',
         }
+
+        existing_pot = self.open_existing_pot(dest_path)
         for e in self.entries:
+            # preserve existing comments
+            if (
+                not e.comment
+                and existing_pot
+                and e.msgid in existing_pot.map_by_id
+            ):
+                e.comment = existing_pot.map_by_id[e.msgid].comment
+
             pot.append(e.to_poentry())
         pot.save(dest_path)
